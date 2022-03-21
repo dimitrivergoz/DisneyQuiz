@@ -5,9 +5,24 @@
         <h2>{{id}}</h2>
     </br>
             {% for datas in data %}
-                {% if datas['_id'] != id  %}
-                    <img src="{{datas['imageUrl']}}" alt="">
-                    <span>Le nom: {{datas['name']}}</span>
+                {% if datas['_id'] == id %}
+                    <img src="{{datas['imageUrl']}}" alt=""></br>
+                    <span>Le nom: {{datas['name']}}</span></br>
+
+                    <!-- Génération des "faux" noms pour le Quiz, avec une alternative au cas où le nom serait le même dans les propositions-->
+                    {% if data[random_number]['name'] != datas['name'] %}
+                        <span>Le 1er faux-nom: {{data[random_number]['name']}}</span></br>
+                    {% else %}
+                        <span>Le 1er faux-nom: {{data[random_number+1]['name']}}</span></br>
+                    {% endif %}
+
+
+                    {% if data[random_number]['name'] != datas['name'] %}
+                        <span>Le 2ème faux-nom: {{data[-random_number]['name']}}</span></br>
+                    {% else %}
+                        <span>Le 2ème faux-nom: {{data[random_number+1]['name']}}</span></br>
+                    {% endif %}
+</br>
                     <p>L'ID: {{ datas['_id']}}</p>
                     <br>
                 

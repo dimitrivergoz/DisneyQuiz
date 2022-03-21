@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    {% block body %} 
+    {% include 'includes/_navbar.html' %}
+    <div class="container">
+        {% block body %} 
     
     {% endblock %}
+    </div>
 </body>
 </html>
