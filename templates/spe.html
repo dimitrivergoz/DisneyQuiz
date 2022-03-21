@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+ {% block body %}
+    <div>
+        <h2>{{id}}</h2>
+    </br>
+            {% for datas in data %}
+                {% if datas['_id'] != id  %}
+                    <img src="{{datas['imageUrl']}}" alt="">
+                    <span>Le nom: {{datas['name']}}</span>
+                    <p>L'ID: {{ datas['_id']}}</p>
+                    <br>
+                
+                {% endif %}
+            {% endfor %}
+    </div>
+ {% endblock %}

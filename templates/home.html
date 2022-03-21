@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+ {% block body %}
+    <div>
+        <h2>{{id}}</h2>
+    </br>
+            {% for datas in data %}
+                {% if datas['_id'] != 7442  %}
+                    <img src="{{datas['imageUrl']}}" alt="">
+                    <span>{{datas['name']}}</span>
+                    <p>{{ datas['_id']}}</p>
+                    <br>
+                
+                {% endif %}
+            {% endfor %}
+    </div>
+ {% endblock %}
