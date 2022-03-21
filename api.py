@@ -1,12 +1,10 @@
 import requests
 import json
+response = requests.get('https://api.disneyapi.dev/characters/')
+data = json.loads(response.content)
 
-response = requests.get('https://api.disneyapi.dev/characters')
+list_id = []
+for i in data['data']:
+    list_id.append(i['name'])
 
-for data in response.json()['data']:
-    print(data['name'])
-    print(type(data['_id']))
-    if not(data['films']):
-        print("=======> Aucun film trouvé, Besoin d'appeler WIKIPEDIA API")
-    else:
-        print("=======> ",data['films'])
+print(list_id)
