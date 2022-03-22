@@ -1,8 +1,9 @@
 import requests
 import json
-response = requests.get('https://api.disneyapi.dev/characters/')
+import random
+random_page = random.randint(0,149)
+response = requests.get('https://api.disneyapi.dev/characters?page='+str(random_page))
 data = json.loads(response.content)
-
 list_id = []
 for i in data['data']:
     list_id.append(i['name'])

@@ -42,5 +42,18 @@ def spe():
     data = json.loads(response.content)
     return render_template('spe.html', name=data['name'], url=data['imageUrl'],data=data,list_name=list_name, list_id=list_id,random_ajout=random_ajout, random_number=random_number)
 
+
+
+@app.route('/page/', methods=['GET'])
+def page():
+    random_page = random.randint(0,149)
+    response = requests.get('https://api.disneyapi.dev/characters?page='+str(random_page))
+    data = json.loads(response.content)
+    list_id = []
+    for i in data['data']:
+        list_id.append(i['name'])
+    return render_template('page.html', list_id=data )
+
+
 if __name__ == '__main__':
     app.run(debug=True)
