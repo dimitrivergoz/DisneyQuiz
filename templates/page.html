@@ -2,16 +2,13 @@
 
  {% block body %}
     <div>
-        <h2>{{page_id}}</h2>
-    </br>
-        {% for datas in list_id['data'] %}
-            {% if datas['_id'] != 7442  %}
-                <img src="{{datas['imageUrl']}}" alt="">
-                <span>{{datas['name']}}</span>
-                <p>ID: {{ datas['_id']}}</p>
-                <br>
-            {% endif %}
-        {% endfor %}
-                
+        
+    <p>ID: {{id_choisi}}</p>
+    <p>Nom: {{name_choisi}}</p>
+    <p>Faux nom 1: {{quiz_2nd_name}}</p>
+    <p>Faux nom 2: {{quiz_3nd_name}}</p>
+    <img src="{{list_url}}" alt="" max-width="400" width="400" srcset="">
+    <p>Indice d'aléatoire: {{aleatoire_number}}</br>
+        Présent sur la page: {{random_page}}</p>
     </div>
  {% endblock %}
