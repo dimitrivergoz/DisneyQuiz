@@ -8,7 +8,7 @@ app = Flask(__name__)
 response = requests.get('https://api.disneyapi.dev/characters/')
 data = json.loads(response.content)
 
-# probleme d'affichage (image) sur #id 2919
+# probleme d'affichage (image) sur #id 2919, 5156
 @app.route('/', methods=['GET'])
 def index():
     random_page = random.randint(0,148)
