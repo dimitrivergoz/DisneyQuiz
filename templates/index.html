@@ -6,6 +6,7 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">ID: {{id_choisi}}</li>
             <form style="margin: 50px;">
+                <h5>Quel est le nom de ce personnage ?</h5>
             <div>
                 <input type="radio" id="huey" name="drone" value="huey">
                 <label for="huey">
@@ -27,18 +28,27 @@
             </div>
             <div>
                 <button style="margin-top: 10px;" type="button" class="btn btn-dark">VALIDER</button>
-              </div>
+            </div>
             </form>
         </ul>
-        <p>Indice d'aléatoire: <b>{{aleatoire_number}}</b>, Présent sur la page: <b>{{random_page}}</b>, Nombre de films: <b>{{nb_film}}</br></b></p>
-            <p style="text-decoration: underline;">3 films où <b>{{name_choisi}}</b> joue</p>
+       <!--  <p>Indice d'aléatoire: <b>{{aleatoire_number}}</b>, Présent sur la page: <b>{{random_page}}</b>, Nombre de films: <b>{{nb_film}}</br></b></p>-->
+            <form style="margin: 50px;">
+                <h5 style="margin: 3px;">Dans quel film "{{name_choisi}}" joue ?</h5>
             {% for i in current_list_film[:3] %}
                 {% if i != [] %}
-                    <div style="margin: 14px;">
-                        {{i[0]}}
-                    </div>
+                        <div>
+                            <input type="radio" id="huey" name="drone" value="huey">
+                            <label for="huey">
+                                <li class="list-group-item list-group-item"">{{i[0]}}</li>
+                        </label>
+                        </div>
                 {% endif %}
             {% endfor %}
+            <div>
+                <button style="margin-top: 10px;" type="button" class="btn btn-dark">VALIDER</button>
+            </div>
+            </form>
+            
     </div>
         <img style="float: left;" src="{{list_url}}" height="15%" width="40%">
     </div>
