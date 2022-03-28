@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+ {% block body %}
+    <div>
+        <div class="card" style="width: 40rem;float: left;">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">ID: {{id_choisi}}</li>
+            <form style="margin: 50px;">
+            <div>
+                <input type="radio" id="huey" name="drone" value="huey">
+                <label for="huey">
+                <li class="list-group-item list-group-item-success">Nom: {{name_choisi}}</li>
+            </label>
+            </div>
+            <div>
+                <input type="radio" id="huey" name="drone" value="huey">
+                <label for="huey">
+                    <li class="list-group-item list-group-item-danger"">Faux nom 1: {{quiz_2nd_name}}</li>
+            </label>
+            </div>
+
+            <div>
+                <input type="radio" id="huey" name="drone" value="huey">
+                <label for="huey">
+                    <li class="list-group-item list-group-item-danger"">Faux nom 2: {{quiz_3nd_name}}</li>
+            </label>
+            </div>
+            <div>
+                <button style="margin-top: 10px;" type="button" class="btn btn-dark">VALIDER</button>
+              </div>
+            </form>
+        </ul>
+        <p>Indice d'aléatoire: <b>{{aleatoire_number}}</b>, Présent sur la page: <b>{{random_page}}</b>, Nombre de films: <b>{{nb_film}}</br></b></p>
+            <p style="text-decoration: underline;">3 films où <b>{{name_choisi}}</b> joue</p>
+            {% for i in current_list_film[:3] %}
+                {% if i != [] %}
+                    <div style="margin: 14px;">
+                        {{i[0]}}
+                    </div>
+                {% endif %}
+            {% endfor %}
+    </div>
+        <img style="float: left;" src="{{list_url}}" height="15%" width="40%">
+    </div>
+ {% endblock %}
