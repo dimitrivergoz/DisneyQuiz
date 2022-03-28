@@ -4,32 +4,23 @@
     <div>
         <div class="card" style="width: 40rem;float: left;">
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">ID: {{id_choisi}}</li>
+            <p>Nom: {{name_choisi}}, ID: {{id_choisi}}</p>
             <form style="margin: 50px;">
-                <h5>Quel est le nom de ce personnage ?</h5>
-            <div>
-                <input type="radio" id="huey" name="drone" value="huey">
-                <label for="huey">
-                <li class="list-group-item list-group-item-success">Nom: {{name_choisi}}</li>
-            </label>
-            </div>
-            <div>
-                <input type="radio" id="huey" name="drone" value="huey">
-                <label for="huey">
-                    <li class="list-group-item list-group-item-danger"">Faux nom 1: {{quiz_2nd_name}}</li>
-            </label>
-            </div>
-
-            <div>
-                <input type="radio" id="huey" name="drone" value="huey">
-                <label for="huey">
-                    <li class="list-group-item list-group-item-danger"">Faux nom 2: {{quiz_3nd_name}}</li>
-            </label>
-            </div>
-            <div>
-                <button style="margin-top: 10px;" type="button" class="btn btn-dark">VALIDER</button>
-            </div>
-            </form>
+                    <h5 style="margin: 3px;">Dans quel film joue ce personnage ?</h5>
+                {% for i in prompt %}
+                    {% if i != [] %}
+                            <div>
+                                <input type="radio" id="huey" name="drone" value="huey">
+                                <label for="huey">
+                                    <li class="list-group-item list-group-item"">{{i}}</li>
+                            </label>
+                            </div>
+                    {% endif %}
+                {% endfor %}
+                <div>
+                    <button style="margin-top: 10px;" type="button" class="btn btn-dark">VALIDER</button>
+                </div>
+                </form>
         </ul>
        <!--  <p>Indice d'aléatoire: <b>{{aleatoire_number}}</b>, Présent sur la page: <b>{{random_page}}</b>, Nombre de films: <b>{{nb_film}}</br></b></p>-->
             <form style="margin: 50px;">
