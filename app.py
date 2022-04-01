@@ -9,7 +9,7 @@ app = Flask(__name__)
 response = requests.get('https://api.disneyapi.dev/characters/')
 data = json.loads(response.content)
 
-# probleme d'affichage (image) sur #id 2919, 5156, 6747
+# probleme d'affichage (image) sur #id 2919, 5156, 6747, 2516
 @app.route('/', methods=['GET'])
 def index():
     #On a 148 pages -> on genere un nombre aléatoire pour choisir la page sur lequel le personne sera choisi
@@ -62,10 +62,29 @@ def index():
             nb_film+=1
             if i not in current_list_film:
                 current_list_film.append(i)
+    z=0
+    list_aleatoire_film = []
+    for i in list_film:
+        if i != []:
+            list_aleatoire_film.append(i)
+            z+=1
 
+    randomfilm_aleatoire_number = random.randint(0,z-1)
+    randomfilm_aleatoire_number2 = random.randint(0,z-1)
+    if randomfilm_aleatoire_number2 == randomfilm_aleatoire_number:
+        randomfilm_aleatoire_number2/=2
+        if randomfilm_aleatoire_number2 < 0:
+            randomfilm_aleatoire_number2 +=2
+    random_film1 = list_aleatoire_film[randomfilm_aleatoire_number]
+    random_film2 = list_aleatoire_film[randomfilm_aleatoire_number2]
+
+    random_film_true_affichage = random.randint(0,len(current_list_film))
+    affichage_film = [random_film1, random_film2, current_list_film[2]]
     affichage = [name_choisi,quiz_2nd_name, quiz_3rd_name]
+
+
     prompt = numpy.random.choice(affichage, len(affichage), False)
-    return render_template('index.html',prompt=prompt,current_list_film=current_list_film,nb_film=nb_film,id_choisi=id_choisi,list_film=list_film, list_url=url_choisi,quiz_2nd_name=quiz_2nd_name,quiz_3rd_name=quiz_3rd_name,  name_choisi=name_choisi,aleatoire_number=aleatoire_number,random_page=random_page)
+    return render_template('index.html',curren_film=current_list_film[2], affichage_film = affichage_film, random_film1=random_film1,random_film2=random_film2,prompt=prompt,current_list_film=current_list_film,nb_film=nb_film,id_choisi=id_choisi,list_film=list_film, list_url=url_choisi,quiz_2nd_name=quiz_2nd_name,quiz_3rd_name=quiz_3rd_name,  name_choisi=name_choisi,aleatoire_number=aleatoire_number,random_page=random_page)
 
 
 if __name__ == '__main__':

@@ -4,17 +4,28 @@
     <div>
         <div class="card" style="width: 40rem;float: left;">
         <ul class="list-group list-group-flush">
-            <p>Nom: {{name_choisi}}, ID: {{id_choisi}}</p>
+            <em><p>Debug // Nom: {{name_choisi}}, ID: {{id_choisi}}</p></em>
+            <h2>{{random_film1, random_film2}}</h2>
             <form style="margin: 50px;">
                     <h5 style="margin: 3px;">Dans quel film joue ce personnage ?</h5>
                 {% for i in prompt %}
                     {% if i != [] %}
+                        {% if i == name_choisi %}
                             <div>
                                 <input type="radio" id="huey" name="drone" value="huey">
                                 <label for="huey">
-                                    <li class="list-group-item list-group-item"">{{i}}</li>
+                                    <li class="list-group-item list-group-item-success">{{i}}</li>
                             </label>
                             </div>
+
+                        {% else %}
+                        <div>
+                            <input type="radio" id="huey" name="drone" value="huey">
+                            <label for="huey">
+                                <li class="list-group-item list-group-item-warning">{{i}}</li>
+                        </label>
+                        </div>
+                        {% endif%}
                     {% endif %}
                 {% endfor %}
                 <div>
@@ -25,15 +36,25 @@
        <!--  <p>Indice d'aléatoire: <b>{{aleatoire_number}}</b>, Présent sur la page: <b>{{random_page}}</b>, Nombre de films: <b>{{nb_film}}</br></b></p>-->
             <form style="margin: 50px;">
                 <h5 style="margin: 3px;">Dans quel film "{{name_choisi}}" joue ?</h5>
-            {% for i in current_list_film[:3] %}
+            {% for i in affichage_film %}
                 {% if i != [] %}
-                        <div>
-                            <input type="radio" id="huey" name="drone" value="huey">
-                            <label for="huey">
-                                <li class="list-group-item list-group-item"">{{i[0]}}</li>
-                        </label>
-                        </div>
+                {% if i == curren_film %}
+                    <div>
+                        <input type="radio" id="huey" name="drone" value="huey">
+                        <label for="huey">
+                            <li class="list-group-item list-group-item-success"">{{i[0]}}</li>
+                    </label>
+                    </div>
+                {% else %}
+                <div>
+                    <input type="radio" id="huey" name="drone" value="huey">
+                    <label for="huey">
+                        <li class="list-group-item list-group-item-warning"">{{i[0]}}</li>
+                </label>
+                </div>
                 {% endif %}
+                {% endif %}
+               
             {% endfor %}
             <div>
                 <button style="margin-top: 10px;" type="button" class="btn btn-dark">VALIDER</button>
