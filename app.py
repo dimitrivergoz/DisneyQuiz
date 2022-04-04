@@ -13,42 +13,37 @@ def generate_caractere():
     #Nous savons qu'il y a 149 pages en tout sur cette API
     random_page = random.randint(0,148)
     response = requests.get('https://api.disneyapi.dev/characters?page='+str(random_page))
-    if response.status_code != 204:
-        data = json.loads(response.content)
-    else:
-        index()
+    data = json.loads(response.content)
     number = random.randint(0, 40)
     for i in data['data'][:number]:
         if i["films"] != [] and i['name'] != "":
+            current_pers["id"] = i['_id']
+            current_pers["name"] = i['name']
+            current_pers["films"] = random.choice(i['films'])
             try:
-                current_pers["films"] = random.choice(i['films'])
-                current_pers["id"] = i['_id']
-                try:
-                    current_pers["url"] = i['imageUrl']
-                    current_pers["name"] = i['name']
-                except KeyError:
-                    pass
+                current_pers["url"] = i['imageUrl']
             except KeyError:
-                pass
-
+                current_pers["url"] = "#"
     return current_pers
+
 @app.route('/', methods=['GET'])
 def index():
     prompt_names = []
     real_one = generate_caractere()
     false_one = generate_caractere()
     false_two = generate_caractere()
-    try:
-        prompt_names = [real_one["name"], false_one["name"], false_two["name"]]
-        prompt_films = [real_one["films"], false_one["films"], false_two["films"]]
-        print("Prompt_films: ",prompt_films)
-        print("prompt_names: ",prompt_names)
-        prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)   
-        prompt_names_after = numpy.random.choice(prompt_names, len(prompt_names), False)
-    except (KeyError, json.decoder.JSONDecodeError):
+    while real_one == {}:
         real_one = generate_caractere()
+    while false_one == {}:
         false_one = generate_caractere()
+    while false_two == {}:
         false_two = generate_caractere()
+    prompt_names = [real_one["name"], false_one["name"], false_two["name"]]
+    prompt_films = [real_one["films"], false_one["films"], false_two["films"]]
+    print("Prompt_films: ",prompt_films)
+    print("prompt_names: ",prompt_names)
+    prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)   
+    prompt_names_after = numpy.random.choice(prompt_names, len(prompt_names), False)
 
     S = requests.Session()
     URL = "https://en.wikipedia.org/w/api.php"
@@ -66,8 +61,14 @@ def index():
     affichage_resume = []
     for i in range(len(resume)):
         affichage_resume.append(DATA['query']['search'][i]['snippet'].replace("&quot;", "").replace("</span>", "").replace("<span class=\"searchmatch\">", ""))
-    
-    return render_template('index.html',current_pers=real_one,prompt_names=prompt_names_after,prompt_films=prompt_films,loading_page=resume,r=DATA,affichage_resume=affichage_resume)
+
+    response = requests.get('http://www.omdbapi.com/?t='+real_one["films"]+'&plot=full&apikey=457ff858')
+    try:
+        data_from_movie = json.loads(response.content)
+    except json.decoder.JSONDecodeError:
+        pass
+    prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)  
+    return render_template('home.html',data_from_movie=data_from_movie, current_pers=real_one,prompt_names=prompt_names_after,prompt_films=prompt_films,loading_page=resume,r=DATA,affichage_resume=affichage_resume)
 
 
 if __name__ == '__main__':
