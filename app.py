@@ -19,40 +19,55 @@ def generate_caractere():
         index()
     number = random.randint(0, 40)
     for i in data['data'][:number]:
-        if i["films"] != []:
+        if i["films"] != [] and i['name'] != "":
             try:
                 current_pers["films"] = random.choice(i['films'])
                 current_pers["id"] = i['_id']
-                if current_pers["id"] in perso_bug_list:
-                    index()
-                current_pers["name"] = i['name']
                 try:
                     current_pers["url"] = i['imageUrl']
+                    current_pers["name"] = i['name']
                 except KeyError:
-                    current_pers["name"] = i['#']
+                    pass
             except KeyError:
                 pass
-    try:
-        print("ID: ",current_pers["id"])
-    except KeyError:
-        index()
 
     return current_pers
 @app.route('/', methods=['GET'])
 def index():
-
+    prompt_names = []
     real_one = generate_caractere()
     false_one = generate_caractere()
     false_two = generate_caractere()
     try:
         prompt_names = [real_one["name"], false_one["name"], false_two["name"]]
-        prompt_films = [real_one["films"], false_one["films"], false_two["films"]]
-        prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)   
-        prompt_names = numpy.random.choice(prompt_names, len(prompt_names), False)
-    except KeyError:
-        index()
+        print("prompt_names: ",prompt_names)
+    except (KeyError, json.decoder.JSONDecodeError):
+        real_one = generate_caractere()
+        false_one = generate_caractere()
+        false_two = generate_caractere()
+    prompt_films = [real_one["films"], false_one["films"], false_two["films"]]
+    print("Prompt_films: ",prompt_films)
+    prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)   
+    prompt_names_after = numpy.random.choice(prompt_names, len(prompt_names), False)
 
-    return render_template('index.html',current_pers=real_one,prompt_names=prompt_names,prompt_films=prompt_films)
+    S = requests.Session()
+    URL = "https://en.wikipedia.org/w/api.php"
+    SEARCHPAGE = real_one["name"] + " " + real_one["films"]
+    PARAMS = {
+        "action": "query",
+        "format": "json",
+        "list": "search",
+        "srsearch": SEARCHPAGE
+    }
+
+    R = S.get(url=URL, params=PARAMS)
+    DATA = R.json()
+    resume = DATA['query']['search']
+    affichage_resume = []
+    for i in range(len(resume)):
+        affichage_resume.append(DATA['query']['search'][i]['snippet'].replace("&quot;", "").replace("</span>", "").replace("<span class=\"searchmatch\">", ""))
+    
+    return render_template('index.html',current_pers=real_one,prompt_names=prompt_names_after,prompt_films=prompt_films,loading_page=resume,r=DATA,affichage_resume=affichage_resume)
 
 
 if __name__ == '__main__':

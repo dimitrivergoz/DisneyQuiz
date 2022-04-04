@@ -52,8 +52,11 @@
     </ul>
     
  <img style="float: left;" src="{{current_pers['url']}}" height="15%" width="40%">
- <p>{{false_two}}</p>
- <p>{{false_one}}</p>
+ <div style="float: left; margin-top: 5%;"><p><b>Résumé:</b> 
+    {% for i in affichage_resume %}
+        {{i}}</br>
+    {% endfor %}
+    </p></div>
 </body>
 </html>
 {% endblock %}
