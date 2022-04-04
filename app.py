@@ -52,7 +52,7 @@ def index():
     except KeyError:
         index()
 
-    return render_template('home.html',current_pers=real_one,prompt_names=prompt_names,prompt_films=prompt_films)
+    return render_template('index.html',current_pers=real_one,prompt_names=prompt_names,prompt_films=prompt_films)
 
 
 if __name__ == '__main__':
