@@ -68,7 +68,7 @@ def index():
     except json.decoder.JSONDecodeError:
         pass
     prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)  
-    return render_template('home.html',data_from_movie=data_from_movie, current_pers=real_one,prompt_names=prompt_names_after,prompt_films=prompt_films,loading_page=resume,r=DATA,affichage_resume=affichage_resume)
+    return render_template('index.html',data_from_movie=data_from_movie, current_pers=real_one,prompt_names=prompt_names_after,prompt_films=prompt_films,loading_page=resume,r=DATA,affichage_resume=affichage_resume)
 
 
 if __name__ == '__main__':
