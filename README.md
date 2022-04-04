@@ -8,7 +8,7 @@ Dès lors que l'utilisateurs aura cliquer sur "VALIDER", il aura toutes les info
 
 Sinon, il n'y aura que le Quiz de visible
   
-
+Pour faire fonctionner le QUIZ, nous allons développer le front en React.
 
 Notre contrainte était de:
 __Mettre 3 API dans un projet Python :__ 
