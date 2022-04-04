@@ -6,85 +6,53 @@ import random
 import numpy
 app = Flask(__name__)
 
-response = requests.get('https://api.disneyapi.dev/characters/')
-data = json.loads(response.content)
+#Liste sur laquelle, nous avons trouvé des problèmes (pas d'image, pas de noms, etc...)
+perso_bug_list = [2919, 5156,6747,2516,4885,5305,4324,5889,4081,7282,5591]
+def generate_caractere():
+    current_pers = {}
+    #Nous savons qu'il y a 149 pages en tout sur cette API
+    random_page = random.randint(0,148)
+    response = requests.get('https://api.disneyapi.dev/characters?page='+str(random_page))
+    if response.status_code != 204:
+        data = json.loads(response.content)
+    else:
+        index()
+    number = random.randint(0, 40)
+    for i in data['data'][:number]:
+        if i["films"] != []:
+            try:
+                current_pers["films"] = random.choice(i['films'])
+                current_pers["id"] = i['_id']
+                if current_pers["id"] in perso_bug_list:
+                    index()
+                current_pers["name"] = i['name']
+                try:
+                    current_pers["url"] = i['imageUrl']
+                except KeyError:
+                    current_pers["name"] = i['#']
+            except KeyError:
+                pass
+    try:
+        print("ID: ",current_pers["id"])
+    except KeyError:
+        index()
 
-# probleme d'affichage (image) sur #id 2919, 5156, 6747, 2516
+    return current_pers
 @app.route('/', methods=['GET'])
 def index():
-    #On a 148 pages -> on genere un nombre aléatoire pour choisir la page sur lequel le personne sera choisi
-    random_page = random.randint(0,148)
-    #On cherche la page avec le nb aléatoire généré
-    response = requests.get('https://api.disneyapi.dev/characters?page='+str(random_page))
-    print('PAGE ========>',random_page)
-    data = json.loads(response.content)
-    list_id = []
-    list_name = []
-    list_url = []
-    list_film = []
-    list_pb = []
-    current_list_film = []
-    #On met TOUS les éléments présents sur la page dans des listes
-    for i in data['data']:
-        list_id.append(i['_id'])
-        list_name.append(i['name'])
-        try:
-            list_url.append(i['imageUrl'])
-        except KeyError:
-            list_url.append('#')
-        try:
-            list_film.append(i['films'])
-        except KeyError:
-            list_film.append('#')
-            list_pb.append(i)
-    #On génére encore une fois un nombre aléatoire pour choisir UN personnage qui sera affiché
-    aleatoire_number = random.randint(0,len(list_id)-1)
-    #INDEX pour les "faux" noms 
-    for_false_name_aleatoire_number = random.randint(0,len(list_id))
-    #On vérifie que les 2 nombres générés ne sont pas indiques, de plus, on verifie qu'ils soient pas "out of range"
-    if for_false_name_aleatoire_number == aleatoire_number:
-        if for_false_name_aleatoire_number > len(list_id):
-            for_false_name_aleatoire_number/=2
-        else:
-            for_false_name_aleatoire_number-1
-    id_choisi = list_id[aleatoire_number]
-    print('PAGE ========>',id_choisi)
 
-    #On met les infos voulues dans des variables pour les afficher
-    name_choisi = list_name[aleatoire_number]
-    quiz_2nd_name = list_name[for_false_name_aleatoire_number-1]
-    quiz_3rd_name = list_name[-for_false_name_aleatoire_number]
-    url_choisi = list_url[aleatoire_number]
-    nb_film = 0
-    #Compteur pour connaître le nb de films
-    for i in list_film:
-        if i != []:
-            nb_film+=1
-            if i not in current_list_film:
-                current_list_film.append(i)
-    z=0
-    list_aleatoire_film = []
-    for i in list_film:
-        if i != []:
-            list_aleatoire_film.append(i)
-            z+=1
+    real_one = generate_caractere()
+    false_one = generate_caractere()
+    false_two = generate_caractere()
+    try:
+        prompt_names = [real_one["name"], false_one["name"], false_two["name"]]
+        prompt_films = [real_one["films"], false_one["films"], false_two["films"]]
+        prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)   
+        prompt_names = numpy.random.choice(prompt_names, len(prompt_names), False)
+    except KeyError:
+        index()
 
-    randomfilm_aleatoire_number = random.randint(0,z-1)
-    randomfilm_aleatoire_number2 = random.randint(0,z-1)
-    if randomfilm_aleatoire_number2 == randomfilm_aleatoire_number:
-        randomfilm_aleatoire_number2/=2
-        if randomfilm_aleatoire_number2 < 0:
-            randomfilm_aleatoire_number2 +=2
-    random_film1 = list_aleatoire_film[randomfilm_aleatoire_number]
-    random_film2 = list_aleatoire_film[randomfilm_aleatoire_number2]
-
-    random_film_true_affichage = random.randint(0,len(current_list_film))
-    affichage_film = [random_film1, random_film2, current_list_film[2]]
-    affichage = [name_choisi,quiz_2nd_name, quiz_3rd_name]
-
-
-    prompt = numpy.random.choice(affichage, len(affichage), False)
-    return render_template('index.html',curren_film=current_list_film[2], affichage_film = affichage_film, random_film1=random_film1,random_film2=random_film2,prompt=prompt,current_list_film=current_list_film,nb_film=nb_film,id_choisi=id_choisi,list_film=list_film, list_url=url_choisi,quiz_2nd_name=quiz_2nd_name,quiz_3rd_name=quiz_3rd_name,  name_choisi=name_choisi,aleatoire_number=aleatoire_number,random_page=random_page)
+    return render_template('home.html',current_pers=real_one,prompt_names=prompt_names,prompt_films=prompt_films)
 
 
 if __name__ == '__main__':
