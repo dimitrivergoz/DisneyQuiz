@@ -8,10 +8,12 @@ Dès lors que l'utilisateurs aura cliquer sur "VALIDER", il aura toutes les info
 
 Sinon, il n'y aura que le Quiz de visible
   
-Pour faire fonctionner le QUIZ, nous allons développer le front en React.
+Pour faire fonctionner le QUIZ
+---------------------------------------------
+Nous allons développer le front en React.
 
-Notre contrainte était de:
-__Mettre 3 API dans un projet Python :__ 
+__Contrainte: Utiliser 3 API__
+---------------------------------------------
 
 - Disney API https://disneyapi.dev/ 
 
@@ -19,6 +21,5 @@ __Mettre 3 API dans un projet Python :__
 
 - OMDb API https://www.omdbapi.com/ 
 
-  
 
 ![Photo de l'app (à quoi elle ressemble) maintenant !](https://vergoz.xyz/app_flask.png) 
