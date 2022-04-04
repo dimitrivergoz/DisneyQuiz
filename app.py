@@ -40,15 +40,15 @@ def index():
     false_two = generate_caractere()
     try:
         prompt_names = [real_one["name"], false_one["name"], false_two["name"]]
+        prompt_films = [real_one["films"], false_one["films"], false_two["films"]]
+        print("Prompt_films: ",prompt_films)
         print("prompt_names: ",prompt_names)
+        prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)   
+        prompt_names_after = numpy.random.choice(prompt_names, len(prompt_names), False)
     except (KeyError, json.decoder.JSONDecodeError):
         real_one = generate_caractere()
         false_one = generate_caractere()
         false_two = generate_caractere()
-    prompt_films = [real_one["films"], false_one["films"], false_two["films"]]
-    print("Prompt_films: ",prompt_films)
-    prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)   
-    prompt_names_after = numpy.random.choice(prompt_names, len(prompt_names), False)
 
     S = requests.Session()
     URL = "https://en.wikipedia.org/w/api.php"
