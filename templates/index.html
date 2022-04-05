@@ -18,7 +18,6 @@
                 <div class="card" style="width: 40rem;float: left;">
                 <ul class="list-group list-group-flush">
                     <form style="margin: 50px;">
-                        <p>{{current_pers['id']}}</p>
                           <h4>Comment s'appelle ce personnage ?</h4>
                           <p>{% for i in prompt_names %}</p>
                             {% if i == current_pers['name'] %}
@@ -34,7 +33,7 @@
                             {% endif %}
                             {% endfor %}
                     </form>
-                    <form style="margin: 50px;">
+                    <form style="margin: 50px; margin-top: -15px;">
                         <h5 style="margin: 10px;">Dans quel film joue ce personnage ?</h5>
                         <p>{% for i in prompt_films %}</p>
                         {% if i == current_pers['films'] %}
@@ -56,7 +55,7 @@
         </div>
           </div>
           <div class="col-sm">
-            <img style="float: left;" src="{{current_pers['url']}}" width="100%">
+            <img style="float: left;" src="{{current_pers['url']}}" width="100%" max-height="200px">
           </div>
 
           {% if data_from_movie['Title'] %}
@@ -72,7 +71,7 @@
                     <li class="list-group-item">Sortie le {{data_from_movie['Released']}}</li>
                     <li class="list-group-item">Durée {{data_from_movie['Runtime']}}</li>
                     <li class="list-group-item">Type: {{data_from_movie['Genre']}}</li>
-                    {% for i in data_from_movie['Ratings'] %}
+                    {% for i in data_from_movie['Ratings'][:-1] %}
                     <li class="list-group-item">{{i['Source']}}: {{i['Value']}}</li>
                         {% endfor %}
                    {% if data_from_movie['BoxOffice'] != "N/A" %}
@@ -85,10 +84,20 @@
       </div>
 
       {% if affichage_resume != [] %}
-        <div style="float: left; margin-top: 5%;"><p><b>Résumé:</b> 
+        <div style="float: left; margin-top: 10px;"><p><b>Résumé:</b> </br>
             {% for i in affichage_resume %}
-                {{i}}</br>
+               {% if affichage_resume[0] == i %}
+                {{i.capitalize()}}
+               {% else %}
+                {{i}}
+               {% endif %}
+                
+               {% if affichage_resume[-1] == i %}
+                {{i,"."}}
+               {% endif %}
+
             {% endfor %}
+            .
         </div>
     {% endif %}
     </ul>

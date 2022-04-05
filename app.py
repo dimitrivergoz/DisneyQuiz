@@ -7,7 +7,7 @@ import numpy
 app = Flask(__name__)
 
 #Liste sur laquelle, nous avons trouvé des problèmes (pas d'image, pas de noms, etc...)
-perso_bug_list = [2919, 5156,6747,2516,4885,5305,4324,5889,4081,7282,5591]
+perso_bug_list = [2919, 5156,6747,2516,4885,5305,4324,5889,4081,7282,5591,2348,4567]
 def generate_caractere():
     current_pers = {}
     #Nous savons qu'il y a 149 pages en tout sur cette API
@@ -62,14 +62,18 @@ def index():
     for i in range(len(resume)):
         affichage_resume.append(DATA['query']['search'][i]['snippet'].replace("&quot;", "").replace("</span>", "").replace("<span class=\"searchmatch\">", ""))
 
+    affichage_resume = ' '.join(affichage_resume).split('.')
     response = requests.get('http://www.omdbapi.com/?t='+real_one["films"]+'&plot=full&apikey=457ff858')
     try:
         data_from_movie = json.loads(response.content)
     except json.decoder.JSONDecodeError:
         pass
     prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)  
-    return render_template('index.html',data_from_movie=data_from_movie, current_pers=real_one,prompt_names=prompt_names_after,prompt_films=prompt_films,loading_page=resume,r=DATA,affichage_resume=affichage_resume)
+    print("Personnage affiché: ID=",real_one['id'])
+    len_affichage_resume = len(affichage_resume) 
+    return render_template('index.html',len_affichage_resume=len_affichage_resume, data_from_movie=data_from_movie, current_pers=real_one,prompt_names=prompt_names_after,prompt_films=prompt_films,loading_page=resume,r=DATA,affichage_resume=affichage_resume)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
