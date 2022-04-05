@@ -6,16 +6,17 @@ import random
 import numpy
 app = Flask(__name__)
 
+random_page = random.randint(0,148)
+response = requests.get('https://api.disneyapi.dev/characters?page='+str(random_page))
+data = json.loads(response.content)
 #Liste sur laquelle, nous avons trouvé des problèmes (pas d'image, pas de noms, etc...)
 perso_bug_list = [2919, 5156,6747,2516,4885,5305,4324,5889,4081,7282,5591,2348,4567]
 def generate_caractere():
     current_pers = {}
     #Nous savons qu'il y a 149 pages en tout sur cette API
-    random_page = random.randint(0,148)
-    response = requests.get('https://api.disneyapi.dev/characters?page='+str(random_page))
-    data = json.loads(response.content)
     number = random.randint(0, 40)
-    for i in data['data'][:number]:
+    print("=============================================>",data['data'][:number])
+    for i in data['data'][::number]:
         if i["films"] != [] and i['name'] != "":
             current_pers["id"] = i['_id']
             current_pers["name"] = i['name']
