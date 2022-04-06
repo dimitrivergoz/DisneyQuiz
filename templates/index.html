@@ -55,28 +55,34 @@
         </div>
           </div>
           <div class="col-sm">
-            <img style="float: left;" src="{{current_pers['url']}}" width="100%" max-height="200px">
+            <img style="float: left;border-radius: 2px" src="{{current_pers['url']}}" width="100%" max-height="200px">
           </div>
 
-          {% if data_from_movie['Title'] %}
+          {% if data_from_movie['Title'] and data_from_movie['Title'] != "Leroy" %}
             <div class="col-sm">
                 <div class="card content" style="width: 18rem;">
                 {% if data_from_movie['Poster'] != "" %}
                         <img class="card-img-top" src="{{data_from_movie['Poster']}}" alt="Card image cap">
                 {% endif%}
                     <div class="card-body">
-                        <h5 class="card-title">{{data_from_movie['Title']}}</h5>
+                        <h5 class="card-title" style="margin-bottom: -5px;">{{data_from_movie['Title']}}</h5>
                     </div>
                     <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Sortie le {{data_from_movie['Released']}}</li>
-                    <li class="list-group-item">Durée {{data_from_movie['Runtime']}}</li>
-                    <li class="list-group-item">Type: {{data_from_movie['Genre']}}</li>
-                    {% for i in data_from_movie['Ratings'][:-1] %}
-                    <li class="list-group-item">{{i['Source']}}: {{i['Value']}}</li>
-                        {% endfor %}
-                   {% if data_from_movie['BoxOffice'] != "N/A" %}
-                    <li class="list-group-item">Box Office: {{data_from_movie['BoxOffice']}}</li>
-                   {% endif %}
+                        <li class="list-group-item">Sortie le {{data_from_movie['Released']}}</li>
+                        <li class="list-group-item">Durée {{data_from_movie['Runtime']}}</li>
+                        {% if number_of_type > 1 %}
+                        <li class="list-group-item">Types: {{data_from_movie['Genre']}}</li>
+                        {% else %}
+                        <li class="list-group-item">Type: {{data_from_movie['Genre']}}</li>
+                        {% endif %}
+                        {% for i in data_from_movie['Ratings'][:-1] %}
+                        <li class="list-group-item">{{i['Source']}}: {{i['Value']}}</li>
+                            {% endfor %}
+                    {% if data_from_movie['BoxOffice'] != "N/A" or data_from_movie['BoxOffice'] == "" %}
+                        <li class="list-group-item">Box Office: {{data_from_movie['BoxOffice']}}</li>
+                    {% endif %}
+                    <button type="button" class="btn btn-dark"><a style="color: white;text-decoration: none  ;" href="https://www.justwatch.com/fr/recherche?q={{data_from_movie['Title']+' Disney'}}" target="bank">Voir le film</a>
+                    </button>
                     </ul>
                 </div>
             {% endif %}
