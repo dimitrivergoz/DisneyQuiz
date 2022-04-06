@@ -22,4 +22,4 @@ __Contrainte: Utiliser 3 API__
 - OMDb API https://www.omdbapi.com/ 
 
 
-![Photo de l'app (à quoi elle ressemble) maintenant !](https://vergoz.xyz/app_flask.png) 
+![Photo de l'app (à quoi elle ressemble) maintenant !](https://vergoz.xyz/image_disneyquiz.png) 
