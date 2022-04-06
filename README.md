@@ -6,7 +6,7 @@ Pour cela nous avons utilisé Python en backend (Flask) __FINI !__
 
 Dès lors que l'utilisateurs aura cliquer sur "VALIDER", il aura toutes les informations (comme sur l'image, ci-dessous) 
 
-Sinon, il n'y aura que le Quiz de visible
+Sinon, il n'y aura que le Quiz de visible (et l'image du personnage sur le côté)
   
 Pour faire fonctionner le QUIZ
 ---------------------------------------------
