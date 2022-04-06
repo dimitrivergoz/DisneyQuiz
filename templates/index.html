@@ -51,11 +51,27 @@
                         </form>
                         <button style="margin-top: 10px;" type="button" class="btn btn-dark">VALIDER</button>
                     </div>
+                    {% if affichage_resume != [] %}
+                    <div style="float: left; width: 120%; padding-top: 30px;"><p><b>Résumé:</b> </br>
+                        {% for i in affichage_resume %}
+                           {% if affichage_resume[0] == i %}
+                            {{i.capitalize()}}
+                           {% else %}
+                            {{i}}
+                           {% endif %}
+                            
+                           {% if affichage_resume[-1] == i %}
+                            {{i}}...
+                           {% endif %}
+                
+                        {% endfor %}
+                    </div>
+                {% endif %}
         
         </div>
           </div>
           <div class="col-sm">
-            <img style="float: left;border-radius: 2px" src="{{current_pers['url']}}" width="100%" max-height="200px">
+            <img style="border-radius: 2px;max-width: 440px; height: auto;" src="{{current_pers['url']}}" width="100%">
           </div>
 
           {% if data_from_movie['Title'] and data_from_movie['Title'] != "Leroy" %}
@@ -65,9 +81,9 @@
                         <img class="card-img-top" src="{{data_from_movie['Poster']}}" alt="Card image cap">
                 {% endif%}
                     <div class="card-body">
-                        <h5 class="card-title" style="margin-bottom: -5px;">{{data_from_movie['Title']}}</h5>
+                        <h5 class="card-title" style="margin-bottom: -5px; font-size: large;">{{data_from_movie['Title']}}</h5>
                     </div>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush" style="font-size:medium">
                         <li class="list-group-item">Sortie le {{data_from_movie['Released']}}</li>
                         <li class="list-group-item">Durée {{data_from_movie['Runtime']}}</li>
                         {% if number_of_type > 1 %}
@@ -87,27 +103,9 @@
                 </div>
             {% endif %}
     </div>
+</ul>
+</form>
+{% endblock %}
       </div>
-
-      {% if affichage_resume != [] %}
-        <div style="float: left; margin-top: 10px;"><p><b>Résumé:</b> </br>
-            {% for i in affichage_resume %}
-               {% if affichage_resume[0] == i %}
-                {{i.capitalize()}}
-               {% else %}
-                {{i}}
-               {% endif %}
-                
-               {% if affichage_resume[-1] == i %}
-                {{i,"."}}
-               {% endif %}
-
-            {% endfor %}
-            .
-        </div>
-    {% endif %}
-    </ul>
-    </form>
-    {% endblock %}
 </body>
 </html>

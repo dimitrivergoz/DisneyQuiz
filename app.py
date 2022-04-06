@@ -63,6 +63,10 @@ def index():
                 false_two = generate_caractere()
             except json.decoder.JSONDecodeError:
                 index()
+    if real_one["name"] == false_one["name"] or false_one["name"] == false_two["name"]:
+        false_one = "Voyage à l'ESILV"
+    elif real_one["name"] ==  false_two["name"]:
+        false_two["name"] = "Je repars chez moi à 11h15"
     print("Noms générés\n",real_one,"\n", false_one,"\n", false_two)
     prompt_names = [real_one["name"], false_one["name"], false_two["name"]]
     prompt_films = [real_one["films"], false_one["films"], false_two["films"]]
@@ -87,6 +91,7 @@ def index():
         affichage_resume.append(DATA['query']['search'][i]['snippet'].replace("&quot;", "").replace("</span>", "").replace("<span class=\"searchmatch\">", ""))
 
     affichage_resume = ' '.join(affichage_resume).split('.')
+    affichage_resume = affichage_resume[:3]
     response = requests.get('http://www.omdbapi.com/?t='+real_one["films"]+'&plot=full&apikey=457ff858')
     try:
         data_from_movie = json.loads(response.content)
@@ -94,7 +99,8 @@ def index():
         pass
     prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)  
     print("Personnage affiché: ID=",real_one['id'])
-    len_affichage_resume = len(affichage_resume) 
+    len_affichage_resume = len(affichage_resume)
+    affichage_resume = affichage_resume[:round(len_affichage_resume/3)] 
     try:
         number_of_type = len(data_from_movie['Genre'].split())
     except KeyError:
