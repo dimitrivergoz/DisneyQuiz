@@ -32,6 +32,25 @@ def generate_caractere():
                 generate_caractere()
     return current_pers
   
+def api_qwant(real_one_nom, real_one_film):
+    query = real_one_nom+" "+real_one_film
+    r = requests.get("https://api.qwant.com/v3/search/images",
+        params={
+            'count': 50,
+            'q': query,
+            't': 'images',
+            'safesearch': 1,
+            'locale': 'en_US',
+            'offset': 0,
+            'device': 'desktop'
+        },
+        headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+        }
+    )
+    response = r.json().get('data').get('result').get('items')
+    urls = [r.get('media') for r in response]
+    return urls[0]
 
 @app.route('/', methods=['GET'])
 def index():
@@ -72,7 +91,7 @@ def index():
     prompt_films = [real_one["films"], false_one["films"], false_two["films"]]
     prompt_films = numpy.random.choice(prompt_films, len(prompt_films), False)   
     prompt_names_after = numpy.random.choice(prompt_names, len(prompt_names), False)
-
+    retour_image = api_qwant(real_one["name"],real_one["films"])
     S = requests.Session()
     URL = "https://en.wikipedia.org/w/api.php"
     SEARCHPAGE = real_one["name"] + " " + real_one["films"]
@@ -105,7 +124,7 @@ def index():
         number_of_type = len(data_from_movie['Genre'].split())
     except KeyError:
         number_of_type = 0
-    return render_template('index.html',number_of_type=number_of_type,len_affichage_resume=len_affichage_resume, data_from_movie=data_from_movie, current_pers=real_one,prompt_names=prompt_names_after,prompt_films=prompt_films,loading_page=resume,r=DATA,affichage_resume=affichage_resume)
+    return render_template('index.html',retour_image=retour_image,number_of_type=number_of_type,len_affichage_resume=len_affichage_resume, data_from_movie=data_from_movie, current_pers=real_one,prompt_names=prompt_names_after,prompt_films=prompt_films,loading_page=resume,r=DATA,affichage_resume=affichage_resume)
 
 
 if __name__ == '__main__':
