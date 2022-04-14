@@ -1,8 +1,8 @@
 # DisneyQuiz 
 
 *Problème sur l'affichage des images:*
-* *- Mise en place de deux API (donc 2 images différentes)*
-* *- Photo, soit introuvable soit qui n'a rien à voir avec le personnage choisi*
+* * Mise en place de deux API (donc 2 images différentes)*
+* * Photo, soit introuvable soit qui n'a rien à voir avec le personnage choisi*
 
 Créer un QUIZ sur le thème "Disney"
   
