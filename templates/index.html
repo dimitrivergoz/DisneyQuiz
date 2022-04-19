@@ -52,7 +52,7 @@
                         <button style="margin-top: 10px;" type="button" class="btn btn-dark">VALIDER</button>
                     </div>
                     {% if affichage_resume != [] %}
-                    <div style="float: left; width: 120%; padding-top: 30px;"><p><b>Résumé:</b> </br>
+                    <div style="float: left; width: 100%; padding-top: 30px;"><p><b>Résumé:</b> </br>
                         {% for i in affichage_resume %}
                            {% if affichage_resume[0] == i %}
                             {{i.capitalize()}}
@@ -71,13 +71,14 @@
         </div>
           </div>
           <div class="col-sm">
-            <img style="border-radius: 2px;max-width: 440px; height: auto;" src="{{retour_image}}" width="100%">
+            <img style="border-radius: 2px;max-width: 400px; height: auto; margin-bottom: 10px;"  src="{{current_pers['url']}}" width="100%">
+            <img style="border-radius: 2px;max-width: 400px; height: auto; margin-bottom: 10px; filter: blur(6px); transition-property: -webkit-filter;" src="{{retour_image}}" width="100%">
           </div>
 
           {% if data_from_movie['Title'] and data_from_movie['Title'] != "Leroy" %}
             <div class="col-sm">
                 <div class="card content" style="width: 18rem;">
-                {% if data_from_movie['Poster'] != "" %}
+                {% if data_from_movie['Poster'] != "" or data_from_movie['Poster'] != "N/A" %}
                         <img class="card-img-top" src="{{data_from_movie['Poster']}}" alt="Card image cap">
                 {% endif%}
                     <div class="card-body">

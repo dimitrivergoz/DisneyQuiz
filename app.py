@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 #Liste sur laquelle, nous avons trouvé des problèmes (pas d'image, pas de noms, etc...)
-perso_bug_list = [2919, 5156,6747,2516,4885,5305,4324,5889,4081,7282,5591,2348,4567]
+perso_bug_list = [2919, 5156,6747,2516,4885,5305,4324,5889,4081,7282,5591,2348,4567,486]
 def getdata():
     random_page = random.randint(0,148)
     response = requests.get('https://api.disneyapi.dev/characters?page='+str(random_page))
@@ -33,7 +33,7 @@ def generate_caractere():
     return current_pers
   
 def api_qwant(real_one_nom, real_one_film):
-    query = real_one_nom+" "+real_one_film
+    query = "scene film disney "+ real_one_film
     r = requests.get("https://api.qwant.com/v3/search/images",
         params={
             'count': 50,
@@ -124,9 +124,8 @@ def index():
         number_of_type = len(data_from_movie['Genre'].split())
     except KeyError:
         number_of_type = 0
-    return render_template('index.html',retour_image=retour_image,number_of_type=number_of_type,len_affichage_resume=len_affichage_resume, data_from_movie=data_from_movie, current_pers=real_one,prompt_names=prompt_names_after,prompt_films=prompt_films,loading_page=resume,r=DATA,affichage_resume=affichage_resume)
+    return render_template('index.html',retour_image=retour_image.replace(" ",""),number_of_type=number_of_type,len_affichage_resume=len_affichage_resume, data_from_movie=data_from_movie, current_pers=real_one,prompt_names=prompt_names_after,prompt_films=prompt_films,loading_page=resume,r=DATA,affichage_resume=affichage_resume)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
-
